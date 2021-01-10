@@ -1,6 +1,11 @@
 import express from 'express';
 const fs = require('fs').promises;
 const path = require("path");
+const cors = require('cors')
+
+const corsOptions = {
+  origin: 'http://localhost:8080',
+}
 
 
 const getReports = async (next) => {
@@ -18,12 +23,12 @@ const getReports = async (next) => {
 export default async (app) => {
   app.use(express.json());
 
-  app.get('/reports', async(req, res, next) => {
+  app.get('/reports', cors(corsOptions), async(req, res, next) => {
     const reports = await getReports(next);
     res.json(reports.elements.map(({id, state}) => ({id, state})));
   });
 
-  app.put('/reports/:id', async (req, res, next) => {
+  app.put('/reports/:id', cors(corsOptions), async (req, res, next) => {
     const reports = await getReports(next);
     const element = reports.elements.find( ({ id }) => id === req.params.id );
     element.state = req.body.ticketState;

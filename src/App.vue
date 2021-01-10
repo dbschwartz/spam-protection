@@ -12,6 +12,12 @@ export default {
   name: 'App',
   components: {
     HelloWorld
+  },
+   created() {
+    fetch('http://localhost:3000/reports').then(cars => {
+      this.cars = cars;
+  
+    });
   }
 }
 </script>
