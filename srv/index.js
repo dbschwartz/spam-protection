@@ -1,24 +1,27 @@
 import express from 'express';
-// import socketIO from "socket.io";
+const fs = require('fs').promises;
 
-export default (app, http) => {
+export default (app) => {
   app.use(express.json());
-  
-  app.get('/foo', (req, res) => {
-    res.json({msg: 'foo'});
+  const reports = require('../data/reports.json')
+
+  app.get('/reports', (req, res) => {
+    res.json(reports)
+  });
+
+  app.put('/reports/:id', async (req, res, next) => {
+    const element = reports.find( ({ id }) => id === req.params.id );
+    element.status = req.body.ticketState;
+    try {
+      await fs.writeFile('../data/reports.json', JSON.stringify(reports, null, 4)); // need to be in an async function
+      res.send('Succesfully updated reports!')
+    } catch (error) {
+      next(error)
+    }
   });
   
   app.post('/bar', (req, res) => {
     res.json(req.body);
   });
   
-  // optional support for socket.io
-  // 
-  // let io = socketIO(http);
-  // io.on("connection", client => {
-  //   client.on("message", function(data) {
-  //     // do something
-  //   });
-  //   client.emit("message", "Welcome");
-  // });
 }
