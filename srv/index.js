@@ -10,8 +10,6 @@ const getReports = async (next) => {
       "utf8"
     );
     return JSON.parse(unparsedJSON);
-    //const reports = require("./reports.json")
-    //return reports;
   } catch (error) {
     next(error);
   }
