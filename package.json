@@ -11,6 +11,8 @@
     "dev": "concurrently \"vue-cli-service express:watch\" \"vue-cli-service serve\""
   },
   "dependencies": {
+    "bootstrap": "^4.5.3",
+    "bootstrap-vue": "^2.21.2",
     "concurrently": "^5.3.0",
     "core-js": "^3.6.5",
     "cors": "^2.8.5",
